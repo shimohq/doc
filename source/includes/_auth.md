@@ -8,9 +8,7 @@
 
 Authorization Code 方式是最通用的授权方式，该方式尤其适用于网站使用。
 
-1. 将用户重定向至授权页面
-
-`GET https://api.shimo.im/oauth/authorization`
+首先第三方应用将用户重定向至授权页面 `https://api.shimo.im/oauth/authorization`.
 
 ### 请求 Query
 
@@ -18,16 +16,12 @@ Authorization Code 方式是最通用的授权方式，该方式尤其适用于�
 --------- | ------- | ------- | ------- | -----------
 client_id | 是 | 无 | string | 应用的 ID
 redirect_uri | 是 | 无 | string | 验证结果的回调网址
-scope | 否 | 无 | 需要的权限列表，以空格分隔
-state | 否 | 无 | 推荐传入一个无法猜测的随机字符串，用来防范 CSRF 攻击
+scope | 否 | 无 | string | 需要的权限列表，以空格分隔
+state | 否 | 无 | string | 推荐传入一个无法猜测的随机字符串，用来防范 CSRF 攻击
 
-2. 石墨跳转回第三方应用
+在该页面中用户可以选择是否向第三方应用授权，而后石墨会跳转回第三方应用。如果用户同意授权，则石墨会传回一个临时口令（`code` 字段）以及在上一步传来的 `state` 参数值（如果提供）。
 
-如果用户同意授权，则石墨会通过 `code` 字段传回一个临时口令以及在上一步传来的 `state` 参数值（如果提供）。
-
-3. 通过 `code` 请求 Token
-
-`POST https://api.shimo.im/oauth/token`
+最后第三方应用在后台通过 `code` 的值向石墨 API 请求 Token，API endpoint 为 `POST https://api.shimo.im/oauth/token`。
 
 ### 请求 Body
 
