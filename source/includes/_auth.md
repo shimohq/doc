@@ -1,6 +1,41 @@
 # 鉴权
 
-石墨鉴权接口遵循 OAuth 2.0 协议。
+石墨鉴权接口遵循 OAuth 2.0 协议。OAuth 是一个能使得第三方应用在无需知道用户的密码的前提下读写用户私有资源的协议，第三方应用通过 OAuth 协议向用户请求授权后，可以获得一个 Access Token，此后即可使用该 Token 来代替用户密码来通过石墨开放 API 请求用户的私有资源。
+
+石墨支持如下几种 OAuth 授权方式：
+
+## Authorization Code 方式
+
+Authorization Code 方式是最通用的授权方式，该方式尤其适用于网站使用。
+
+### 将用户重定向至授权页面
+
+`GET https://api.shimo.im/oauth/authorization`
+
+### 请求 Query
+
+参数 | 必选 | 默认值 | 类型 | 描述
+--------- | ------- | ------- | ------- | -----------
+client_id | 是 | 无 | string | 应用的 ID
+redirect_uri | 是 | 无 | string | 验证结果的回调网址
+scope | 否 | 无 | 需要的权限列表，以空格分隔
+state | 否 | 无 | 推荐传入一个无法猜测的随机字符串，用来防范 CSRF 攻击
+
+### 石墨跳转回第三方应用
+
+如果用户同意授权，则石墨会通过 `code` 字段传回一个临时口令以及在上一步传来的 `state` 参数值（如果提供）。
+
+### 通过 `code` 请求 Token
+
+`POST https://api.shimo.im/oauth/token`
+
+### 请求 Body
+
+参数 | 必选 | 默认值 | 类型 | 描述
+--------- | ------- | ------- | ------- | -----------
+grant_type | 是 | 无 | string | 指定为 `"authorization_code"`
+code | 是 | 无 | string | 上一步传回来的 `code` 参数
+redirect_uri | 是 | 无 | string | 和第一步传的 `redirect_uri` 参数一致
 
 ## Provider Exchange 方式
 
