@@ -1,4 +1,4 @@
-# 鉴权
+# OAuth 授权
 
 石墨鉴权接口遵循 OAuth 2.0 协议。OAuth 是一个能使得第三方应用在无需知道用户的密码的前提下读写用户私有资源的协议，第三方应用通过 OAuth 协议向用户请求授权后，可以获得一个 Access Token，此后即可使用该 Token 来代替用户密码来通过石墨开放 API 请求用户的私有资源。
 
@@ -8,7 +8,7 @@
 
 Authorization Code 方式是最通用的授权方式，该方式尤其适用于网站使用。
 
-首先第三方应用将用户重定向至授权页面 `https://api.shimo.im/oauth/authorization`.
+首先第三方应用将用户重定向至授权页面 `https://api.shimo.im/oauth/authorization`。
 
 ### 请求 Query
 
@@ -31,37 +31,38 @@ grant\_type | 是 | 无 | string | 指定为 `"authorization_code"`
 code | 是 | 无 | string | 上一步传回来的 `code` 参数
 redirect\_uri | 是 | 无 | string | 和第一步传的 `redirect_uri` 参数一致
 
+该 API 会返回 Access Token 和 Refresh Token：
+
 ## Provider Exchange 方式
 
 ```http
-POST /oauth/access_token HTTP/1.1
+POST /oauth/token HTTP/1.1
 Authorization: Basic Y2xpZW50X2lkOmNsaWVudF9zZWNyZXQ=
 Content-Type: application/x-www-form-urlencoded
 Host: api.shimo.im
 Content-Length: 64
 
-grant_type=provider_exchange&access_token=your+access+token+here
+grant_type=provider_exchange&provider_user=user_id_here
 ```
 
 ```shell
 # Authorization 的值遵循 HTTP Basic Auth，由 client_id:client_secret 构成
-curl -X "POST" "https://api.shimo.im/oauth/access_token" \
+curl -X "POST" "https://api.shimo.im/oauth/token" \
 	-H "Authorization: Basic Y2xpZW50X2lkOmNsaWVudF9zZWNyZXQ=" \
 	--data-urlencode "grant_type=provider_exchange" \
-	--data-urlencode "access_token=your access token here"
+	--data-urlencode "provider_user=user_id_here"
 ```
 
 对于限定的第三方登录提供商，石墨提供 Provider Exchange 方式来允许第三方直接获取其平台用户在石墨的 Access Token。
-例如某个用户 A 是通过 OAuth 服务提供商 B 登录的石墨，此时 B 想请求 A 在石墨的 Access Token，则只需要提供 A 通过 B 登录
-石墨时 B 颁发给石墨的 Access Token 即可。
+例如某个用户 A 是通过 OAuth 服务提供商 B 登录的石墨，此时 B 想请求 A 在石墨的 Access Token，则只需要提供 A 在 B 的用户 ID 即可。
 
 ### HTTP 请求
 
-`POST https://api.shimo.im/oauth/access_token`
+`POST https://api.shimo.im/oauth/token`
 
 ### 请求 Body
 
 参数 | 必选 | 默认值 | 类型 | 描述
 --------- | ------- | ------- | ------- | -----------
 grant\_type | 是 | 无 | string | 指定为 `provider_exchange`
-access_token | 是 | 无 | string | 目标用户在 provider 的 Access Token
+provider_user | 是 | 无 | string | 目标用户在 provider 的用户 ID

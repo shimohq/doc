@@ -11,6 +11,7 @@ toc_footers:
 
 includes:
   - auth
+  - invoke
   - users
   - files
   - errors
