@@ -13,6 +13,7 @@ includes:
   - auth
   - invoke
   - users
+  - providers
   - files
   - errors
 
