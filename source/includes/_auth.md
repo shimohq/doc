@@ -16,6 +16,7 @@ Authorization Code 方式是最通用的授权方式，该方式尤其适用于�
 --------- | ------- | ------- | ------- | -----------
 client_id | 是 | 无 | string | 应用的 ID
 redirect_uri | 是 | 无 | string | 验证结果的回调网址
+response_type | 是 | 无 | string | 必须为 `"code"`
 scope | 否 | 无 | string | 需要的权限列表，以空格分隔
 state | 否 | 无 | string | 推荐传入一个无法猜测的随机字符串，用来防范 CSRF 攻击
 
