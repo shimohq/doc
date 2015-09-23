@@ -16,11 +16,46 @@
 --------- | ------- | ------- | ------- | -----------
 provider | 是 | 无 | string | 合作方名称
 
-### 请求 Body
+## 获取文档列表
+
+返回合作方提供的实体 ID 对应的文件列表
+
+### HTTP 请求
+
+`GET https://api.shimo.im/provider/:provider/files`
+
+### 请求 Param
 
 参数 | 必选 | 默认值 | 类型 | 描述
 --------- | ------- | ------- | ------- | -----------
-providerEntity | 是 | 无 | string | 要创建的文档所属实体 ID
+provider | 是 | 无 | string | 合作方名称
+
+### 请求 Query
+
+参数 | 必选 | 默认值 | 类型 | 描述
+--------- | ------- | ------- | ------- | -----------
+providerEntity | 是 | 无 | string | 要获取的所属实体 ID
+
+## 获取文档内容
+
+返回合作方提供的实体 ID 对应的文件列表
+
+### HTTP 请求
+
+`GET https://api.shimo.im/provider/:provider/files/:guid`
+
+### 请求 Param
+
+参数 | 必选 | 默认值 | 类型 | 描述
+--------- | ------- | ------- | ------- | -----------
+provider | 是 | 无 | string | 合作方名称
+guil | 是 | 无 | string | 文件的 GUID
+
+### 请求 Query
+
+参数 | 必选 | 默认值 | 类型 | 描述
+--------- | ------- | ------- | ------- | -----------
+providerEntity | 是 | 无 | string | 要获取的所属实体 ID
 
 ## 请求用户绑定合作方账号
 
