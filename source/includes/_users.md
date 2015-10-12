@@ -16,7 +16,9 @@ curl -X "GET" "https://api.shimo.im/users/me"
 ```json
 {
   "id": "78",
-  "name": "李小花"
+  "name": "李明",
+  "email": "liming@shimo.im",
+  "avatar": "https://static.shimo.im/avatar/2e7a00413bc9.png"
 }
 ```
 

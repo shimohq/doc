@@ -3,34 +3,27 @@
 ## 获取文档列表
 
 ```http
-GET /files?parentId=32&subFolders%20=true HTTP/1.1
+GET /files?folderId=jUiAcImUVWuhIbcW&subFolders%20=true HTTP/1.1
 Host: api.shimo.im
 ```
 
 ```shell
-curl -X "GET" "https://api.shimo.im/files?parentId=32&subFolders%20=true"
+curl -X "GET" "https://api.shimo.im/files?folderId=jUiAcImUVWuhIbcW
 ```
 
 > 请求成功后返回样例：
 
 ```json
 [{
-  "id": "68",
-  "type": "file",
+  "guid": "7WSjLS29I2Vqaa2X",
   "title": "文档一"
 }, {
-  "id": "69",
-  "type": "folder",
-  "title": "文件夹一",
-  "children": [{
-    "id": "70",
-    "type": "file",
-    "title": "文档二"
-  }]
+  "guid": "N25Dhp2vTT4uHoKt",
+  "title": "文件夹一"
 }]
 ```
 
-获取指定目录下所有文档列表，支持包括子目录。
+获取指定目录下所有文档列表。
 
 ### HTTP 请求
 
@@ -40,8 +33,7 @@ curl -X "GET" "https://api.shimo.im/files?parentId=32&subFolders%20=true"
 
 参数 | 必选 | 默认值 | 类型 | 描述
 --------- | ------- | ------- | ------- | -----------
-parentId | 否 | 无 | string | 如提供，则只获取指定文件夹下的文件列表
-subFolders | 否 | `false` | boolean | 是否包含子文件夹的文件
+folderId | 否 | 无 | string | 如提供，则只获取指定文件夹下的文件列表，否则返回桌面文件
 
 ## 创建文档
 
@@ -102,17 +94,16 @@ Host: api.shimo.im
 ```
 
 ```shell
-curl -X "GET" "https://api.shimo.im/files/17"
+curl -X "GET" "https://api.shimo.im/files/N25Dhp2vTT4uHoKt"
 ```
 
 > 请求成功后返回样例：
 
 ```json
 {
-  "id": "68",
-  "type": "file",
+  "guid": "N25Dhp2vTT4uHoKt",
   "title": "文档一",
-  "content": "<div>content goes here</div>"
+  "html": "<div>content goes here</div>"
 }
 ```
 
