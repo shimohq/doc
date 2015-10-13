@@ -3,12 +3,12 @@
 ## 获取文档列表
 
 ```http
-GET /files?folderId=jUiAcImUVWuhIbcW&subFolders%20=true HTTP/1.1
+GET /files?folder=jUiAcImUVWuhIbcW&subFolders%20=true HTTP/1.1
 Host: api.shimo.im
 ```
 
 ```shell
-curl -X "GET" "https://api.shimo.im/files?folderId=jUiAcImUVWuhIbcW
+curl -X "GET" "https://api.shimo.im/files?folder=jUiAcImUVWuhIbcW
 ```
 
 > 请求成功后返回样例：
@@ -43,13 +43,13 @@ Content-Type: application/json
 Host: api.shimo.im
 Content-Length: 15
 
-{"type":"file"}
+{"folder":false}
 ```
 
 ```shell
 curl -X "POST" "https://api.shimo.im/files?folder=32" \
 	-H "Content-Type: application/json" \
-	-d "{\"type\":\"file\"}"
+	-d "{\"folder\":false}"
 ```
 
 > 请求成功后返回样例：
