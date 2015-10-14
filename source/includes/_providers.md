@@ -61,9 +61,9 @@ providerEntity | 是 | 无 | string | 要获取的所属实体 ID
 
 ### HTTP 请求
 
-`POST https://shimo.im/sso/login/:provider`
+`GET https://shimo.im/sso/login/:provider`
 
-### 请求 Body
+### 请求 Query
 
 参数 | 必选 | 默认值 | 类型 | 描述
 --------- | ------- | ------- | ------- | -----------
