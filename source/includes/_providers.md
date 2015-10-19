@@ -68,3 +68,4 @@ providerEntity | 是 | 无 | string | 要获取的所属实体 ID
 参数 | 必选 | 默认值 | 类型 | 描述
 --------- | ------- | ------- | ------- | -----------
 callback | 是 | 无 | string | 登录成功后的回调地址
+providerUser | 是 | 无 | string | 需要用户登录的第三方账号 id
