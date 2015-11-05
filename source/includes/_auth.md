@@ -2,7 +2,7 @@
 
 石墨鉴权接口遵循 OAuth 2.0 协议。OAuth 是一个能使得第三方应用在无需知道用户的密码的前提下读写用户私有资源的协议，第三方应用通过 OAuth 协议向用户请求授权后，可以获得一个 Access Token，此后即可使用该 Token 来代替用户密码来通过石墨开放 API 请求用户的私有资源。
 
-石墨支持 Authorization Code, Password 和 Provider Exchange 三种 OAuth 授权方式。
+石墨支持 Authorization Code, Password, Provider Exchange 和 Refresh Token 四种 OAuth 授权方式。
 
 ## Authorization Code 方式
 
@@ -14,10 +14,10 @@ Authorization Code 方式是最通用的授权方式，该方式尤其适用于�
 
 参数 | 必选 | 默认值 | 类型 | 描述
 --------- | ------- | ------- | ------- | -----------
+scope | 否 | 无 | string | 需要的权限列表，以空格分隔
 client_id | 是 | 无 | string | 应用的 ID
 redirect_uri | 是 | 无 | string | 验证结果的回调网址
 response_type | 是 | 无 | string | 必须为 `"code"`
-scope | 否 | 无 | string | 需要的权限列表，以空格分隔
 state | 否 | 无 | string | 推荐传入一个无法猜测的随机字符串，用来防范 CSRF 攻击
 
 在该页面中用户可以选择是否向第三方应用授权，而后石墨会跳转回第三方应用。如果用户同意授权，则石墨会传回一个临时口令（`code` 字段）以及在上一步传来的 `state` 参数值（如果提供）。
@@ -32,7 +32,12 @@ grant\_type | 是 | 无 | string | 指定为 `"authorization_code"`
 code | 是 | 无 | string | 上一步传回来的 `code` 参数
 redirect\_uri | 是 | 无 | string | 和第一步传的 `redirect_uri` 参数一致
 
-该 API 会返回 Access Token 和 Refresh Token：
+该 API 会返回 Access Token 和 Refresh Token。
+
+
+<aside class="notice">
+scope 的有效值分别为 `public`, `read` 和 `write`，分别对应“获取用户公开资料”、“读取用户的私有文档”和“读写用户的私有文档”。
+</aside>
 
 ## Provider Exchange 方式
 
@@ -66,4 +71,75 @@ curl -X "POST" "https://api.shimo.im/oauth/token" \
 参数 | 必选 | 默认值 | 类型 | 描述
 --------- | ------- | ------- | ------- | -----------
 grant\_type | 是 | 无 | string | 指定为 `provider_exchange`
+scope | 否 | 无 | string | 需要的权限列表，以空格分隔
 provider_user | 是 | 无 | string | 目标用户在 provider 的用户 ID
+
+## Password 方式
+
+```http
+POST /oauth/token HTTP/1.1
+Authorization: Basic Y2xpZW50X2lkOmNsaWVudF9zZWNyZXQ=
+Content-Type: application/x-www-form-urlencoded
+Host: api.shimo.im
+Content-Length: 64
+
+grant_type=password&username=user@shimo.im@password=strongtoken
+```
+
+```shell
+# Authorization 的值遵循 HTTP Basic Auth，由 client_id:client_secret 构成
+curl -X "POST" "https://api.shimo.im/oauth/token" \
+	-H "Authorization: Basic Y2xpZW50X2lkOmNsaWVudF9zZWNyZXQ=" \
+	--data-urlencode "grant_type=password" \
+	--data-urlencode "username=user@shimo.im" \
+	--data-urlencode "password=strongtoken"
+```
+
+Password 方式允许第三方应用通过用户的邮箱和密码获取 Access Token。目前此方式只开放给指定的第三方应用。
+
+### HTTP 请求
+
+`POST https://api.shimo.im/oauth/token`
+
+### 请求 Body
+
+参数 | 必选 | 默认值 | 类型 | 描述
+--------- | ------- | ------- | ------- | -----------
+grant\_type | 是 | 无 | string | 指定为 `password`
+scope | 否 | 无 | string | 需要的权限列表，以空格分隔
+username | 是 | 无 | string | 用户的邮箱
+password | 是 | 无 | string | 用户的密码
+
+## Refresh Token 方式
+
+```http
+POST /oauth/token HTTP/1.1
+Authorization: Basic Y2xpZW50X2lkOmNsaWVudF9zZWNyZXQ=
+Content-Type: application/x-www-form-urlencoded
+Host: api.shimo.im
+Content-Length: 64
+
+grant_type=refresh_token&refresh_token=tokenhere
+```
+
+```shell
+# Authorization 的值遵循 HTTP Basic Auth，由 client_id:client_secret 构成
+curl -X "POST" "https://api.shimo.im/oauth/token" \
+	-H "Authorization: Basic Y2xpZW50X2lkOmNsaWVudF9zZWNyZXQ=" \
+	--data-urlencode "grant_type=refresh_token" \
+	--data-urlencode "refresh_token=tokenhere"
+```
+
+Access Token 的有效期为一个小时，过期后需要使用 Refresh Token 刷新。Refresh Token 除非用户主动撤销，否则永久有效。
+
+### HTTP 请求
+
+`POST https://api.shimo.im/oauth/token`
+
+### 请求 Body
+
+参数 | 必选 | 默认值 | 类型 | 描述
+--------- | ------- | ------- | ------- | -----------
+grant\_type | 是 | 无 | string | 指定为 `refresh_token`
+scope | 否 | 无 | string | 需要的权限列表，以空格分隔
+refresh_token | 是 | 无 | string | Refresh Token
