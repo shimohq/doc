@@ -28,9 +28,7 @@ shimo.oauth.token('authorization', {
 });
 ```
 
-Authorization Code 方式是最通用的授权方式，该方式尤其适用于网站使用。
-
-首先第三方应用将用户重定向至授权页面 `https://api.shimo.im/oauth/authorization`，需要提供的参数如下：
+Authorization Code 方式是最通用的授权方式，该方式尤其适用于网站使用。使用 Authorization Code 方式获得 Access Token 需要两步，首先要将用户重定向至授权页面 `https://api.shimo.im/oauth/authorization`，需要提供的参数如下：
 
 ### 请求 Query
 
@@ -42,9 +40,9 @@ redirect_uri | 是 | 无 | string | 验证结果的回调网址
 response_type | 是 | 无 | string | 必须为 `"code"`
 state | 否 | 无 | string | 推荐传入一个无法猜测的随机字符串，用来防范 CSRF 攻击
 
-在该页面中用户可以选择是否向第三方应用授权，而后石墨会跳转回第三方应用。如果用户同意授权，则石墨会传回一个临时口令（`code` 字段）以及在上一步传来的 `state` 参数值（如果提供）。
+在该页面中用户可以选择是否向第三方应用授权，而后石墨会跳转回第三方应用。如果用户同意授权，则石墨会传回一个临时口令（`code` 字段）以及在上一步传来的 `state` 参数值（如果提供），否则会传回 `error` 和 `state`，其中 `error` 包含具体的错误信息。
 
-最后第三方应用在后台通过 `code` 的值向石墨 API 请求 Token，API endpoint 为 `POST https://api.shimo.im/oauth/token`。
+最后第三方应用通过 `code` 的值向石墨 API 请求 Access Token，API 为 `POST https://api.shimo.im/oauth/token`，参数如下：
 
 ### 请求 Body
 
@@ -54,10 +52,8 @@ grant\_type | 是 | 无 | string | 指定为 `"authorization_code"`
 code | 是 | 无 | string | 上一步传回来的 `code` 参数
 redirect\_uri | 是 | 无 | string | 和第一步传的 `redirect_uri` 参数一致
 
-该 API 会返回 Access Token 和 Refresh Token。
-
 <aside class="notice">
-scope 的有效值分别为 `public`, `read` 和 `write`，分别对应“获取用户公开资料”、“读取用户的私有文档”和“读写用户的私有文档”。
+scope 的有效值分别为 "public", "read" 和 "write"，分别对应“获取用户公开资料”、“读取用户的私有文档”和“读写用户的私有文档”。
 </aside>
 
 ## Password 方式
