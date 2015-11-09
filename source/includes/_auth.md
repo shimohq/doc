@@ -18,13 +18,14 @@ grant_type=authorization&code=yourcode
 
 ```javascript
 // 首先将用户重定向到授权页面：
-res.redirect(shimo.oauth.authorization({
+res.redirect(shimo.authorization({
   redirect_uri: 'https://yourapp.tld/oauth/callback'
 }));
 
 // 然后在回调页面用返回的 code 请求 token：
-shimo.oauth.token('authorization', {
-  code: req.query.code
+shimo.token('authorization', {
+  code: req.query.code,
+  redirect_uri: 'https://yourapp.tld/oauth/callback'
 });
 ```
 
@@ -69,7 +70,7 @@ grant_type=password&username=user@shimo.im@password=strongtoken
 ```
 
 ```javascript
-shimo.oauth.token('password', {
+shimo.token('password', {
   username: 'user',
   password: 'strongtoken'
 });
@@ -103,7 +104,7 @@ grant_type=refresh_token&refresh_token=tokenhere
 ```
 
 ```javascript
-shimo.oauth.token('refresh_token', {
+shimo.token('refresh_token', {
   refresh_token: 'tokenhere'
 });
 ```
