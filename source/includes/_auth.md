@@ -1,8 +1,8 @@
 # OAuth 授权
 
-石墨鉴权接口遵循 [OAuth 2.0 协议](https://tools.ietf.org/html/rfc6749)。OAuth 是一个能使得第三方应用在无需知道用户的密码的前提下读写用户私有资源的标准协议，第三方应用通过 OAuth 协议向用户请求授权后，可以获得一个 Access Token，此后即可使用该 Token 来代替用户密码来通过石墨开放 API 请求用户的私有资源。
+石墨鉴权接口遵循 [OAuth 2.0 协议](https://tools.ietf.org/html/rfc6749)。OAuth 是一个使得第三方应用在无需知道用户的密码的前提下读写用户私有资源的标准协议，第三方应用通过 OAuth 协议向用户请求授权后，可以获得一个 Access Token，此后即可使用该 Token 来代替用户密码来通过石墨开放 API 请求用户的私有资源。
 
-石墨支持 Authorization Code, Password 和 Refresh Token 三种 OAuth 授权方式，其中每种授权方式都是通过调用 `/oauth/token` 接口来最终获取 Access Token，该接口需要传送 `"Authorization"` header，内容遵循 HTTP Basic 标准，格式为 `"client_id:client_secret"`。另外为了严格遵照 OAuth 2.0 规范，OAuth 相关的 API 均支持使用 `application/x-www-form-urlencoded` 格式传送数据。
+石墨支持 Authorization Code, Password 和 Refresh Token 三种 OAuth 授权方式，其中每种授权方式都是通过调用 `/oauth/token` 接口来最终获取 Access Token，该接口需要传送 "Authorization" 请求头，内容遵循 HTTP Basic 标准，格式为 `client_id:client_secret`。另外为了严格遵照 OAuth 2.0 规范，OAuth 相关的 API 均支持使用 "application/x-www-form-urlencoded" 格式传送数据。
 
 ## Authorization Code 方式
 
@@ -17,12 +17,12 @@ grant_type=authorization&code=yourcode
 ```
 
 ```javascript
-// First, redirect users to the authorization page:
+// 首先将用户重定向到授权页面：
 res.redirect(shimo.oauth.authorization({
   redirect_uri: 'https://yourapp.tld/oauth/callback'
 }));
 
-// Second, exchange token with the returned code in the callback page:
+// 然后在回调页面用返回的 code 请求 token：
 shimo.oauth.token('authorization', {
   code: req.query.code
 });
@@ -30,7 +30,7 @@ shimo.oauth.token('authorization', {
 
 Authorization Code 方式是最通用的授权方式，该方式尤其适用于网站使用。
 
-首先第三方应用将用户重定向至授权页面 `https://api.shimo.im/oauth/authorization`。
+首先第三方应用将用户重定向至授权页面 `https://api.shimo.im/oauth/authorization`，需要提供的参数如下：
 
 ### 请求 Query
 
