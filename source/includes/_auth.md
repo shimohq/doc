@@ -2,7 +2,7 @@
 
 石墨鉴权接口遵循 [OAuth 2.0 协议](https://tools.ietf.org/html/rfc6749)。OAuth 是一个能使得第三方应用在无需知道用户的密码的前提下读写用户私有资源的标准协议，第三方应用通过 OAuth 协议向用户请求授权后，可以获得一个 Access Token，此后即可使用该 Token 来代替用户密码来通过石墨开放 API 请求用户的私有资源。
 
-石墨支持 Authorization Code, Password, Provider Exchange 和 Refresh Token 四种 OAuth 授权方式，其中每种授权方式都是通过调用 `/oauth/token` 接口来最终获取 Access Token，该接口需要传送 `"Authorization"` header，内容遵循 HTTP Basic 标准，格式为 `"client_id:client_secret"`。另外为了严格遵照 OAuth 2.0 规范，OAuth 相关的 API 均支持使用 `application/x-www-form-urlencoded` 格式传送数据。
+石墨支持 Authorization Code, Password 和 Refresh Token 三种 OAuth 授权方式，其中每种授权方式都是通过调用 `/oauth/token` 接口来最终获取 Access Token，该接口需要传送 `"Authorization"` header，内容遵循 HTTP Basic 标准，格式为 `"client_id:client_secret"`。另外为了严格遵照 OAuth 2.0 规范，OAuth 相关的 API 均支持使用 `application/x-www-form-urlencoded` 格式传送数据。
 
 ## Authorization Code 方式
 
@@ -60,38 +60,38 @@ redirect\_uri | 是 | 无 | string | 和第一步传的 `redirect_uri` 参数一
 scope 的有效值分别为 `public`, `read` 和 `write`，分别对应“获取用户公开资料”、“读取用户的私有文档”和“读写用户的私有文档”。
 </aside>
 
-## Provider Exchange 方式
+> ## Provider Exchange 方式
 
-```http
-POST /oauth/token HTTP/1.1
-Authorization: Basic Y2xpZW50X2lkOmNsaWVudF9zZWNyZXQ=
-Content-Type: application/x-www-form-urlencoded
-Host: api.shimo.im
-Content-Length: 64
+> ```http
+> POST /oauth/token HTTP/1.1
+> Authorization: Basic Y2xpZW50X2lkOmNsaWVudF9zZWNyZXQ=
+> Content-Type: application/x-www-form-urlencoded
+> Host: api.shimo.im
+> Content-Length: 64
 
-grant_type=provider_exchange&provider_user=user_id_here
-```
+> grant_type=provider_exchange&provider_user=user_id_here
+> ```
 
-```node
-shimo.oauth.token('provider_exchange', {
-  provider_user: 'user_id_here'
-});
-```
+> ```node
+> shimo.oauth.token('provider_exchange', {
+>   provider_user: 'user_id_here'
+> });
+> ```
 
-对于限定的第三方登录提供商，石墨提供 Provider Exchange 方式来允许第三方直接获取其平台用户在石墨的 Access Token。
-例如某个用户 A 是通过 OAuth 服务提供商 B 登录的石墨，此时 B 想请求 A 在石墨的 Access Token，则只需要提供 A 在 B 的用户 ID 即可。
+> 对于限定的第三方登录提供商，石墨提供 Provider Exchange 方式来允许第三方直接获取其平台用户在石墨的 Access Token。
+> 例如某个用户 A 是通过 OAuth 服务提供商 B 登录的石墨，此时 B 想请求 A 在石墨的 Access Token，则只需要提供 A 在 B 的用户 ID 即可。
 
-### HTTP 请求
+> ### HTTP 请求
 
-`POST https://api.shimo.im/oauth/token`
+> `POST https://api.shimo.im/oauth/token`
 
-### 请求 Body
+> ### 请求 Body
 
-参数 | 必选 | 默认值 | 类型 | 描述
---------- | ------- | ------- | ------- | -----------
-grant\_type | 是 | 无 | string | 指定为 `provider_exchange`
-scope | 否 | 无 | string | 需要的权限列表，以空格分隔
-provider_user | 是 | 无 | string | 目标用户在 provider 的用户 ID
+> 参数 | 必选 | 默认值 | 类型 | 描述
+> --------- | ------- | ------- | ------- | -----------
+> grant\_type | 是 | 无 | string | 指定为 `provider_exchange`
+> scope | 否 | 无 | string | 需要的权限列表，以空格分隔
+> provider_user | 是 | 无 | string | 目标用户在 provider 的用户 ID
 
 ## Password 方式
 
