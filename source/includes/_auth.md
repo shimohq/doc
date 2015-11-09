@@ -104,8 +104,7 @@ grant_type=refresh_token&refresh_token=tokenhere
 
 ```javascript
 shimo.oauth.token('refresh_token', {
-  refresh_token: 'tokenhere',
-  password: 'strongtoken'
+  refresh_token: 'tokenhere'
 });
 ```
 
