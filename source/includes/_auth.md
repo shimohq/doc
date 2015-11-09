@@ -60,39 +60,6 @@ redirect\_uri | 是 | 无 | string | 和第一步传的 `redirect_uri` 参数一
 scope 的有效值分别为 `public`, `read` 和 `write`，分别对应“获取用户公开资料”、“读取用户的私有文档”和“读写用户的私有文档”。
 </aside>
 
-> ## Provider Exchange 方式
-
-> ```http
-> POST /oauth/token HTTP/1.1
-> Authorization: Basic Y2xpZW50X2lkOmNsaWVudF9zZWNyZXQ=
-> Content-Type: application/x-www-form-urlencoded
-> Host: api.shimo.im
-> Content-Length: 64
-
-> grant_type=provider_exchange&provider_user=user_id_here
-> ```
-
-> ```javascript
-> shimo.oauth.token('provider_exchange', {
->   provider_user: 'user_id_here'
-> });
-> ```
-
-> 对于限定的第三方登录提供商，石墨提供 Provider Exchange 方式来允许第三方直接获取其平台用户在石墨的 Access Token。
-> 例如某个用户 A 是通过 OAuth 服务提供商 B 登录的石墨，此时 B 想请求 A 在石墨的 Access Token，则只需要提供 A 在 B 的用户 ID 即可。
-
-> ### HTTP 请求
-
-> `POST https://api.shimo.im/oauth/token`
-
-> ### 请求 Body
-
-> 参数 | 必选 | 默认值 | 类型 | 描述
-> --------- | ------- | ------- | ------- | -----------
-> grant\_type | 是 | 无 | string | 指定为 `provider_exchange`
-> scope | 否 | 无 | string | 需要的权限列表，以空格分隔
-> provider_user | 是 | 无 | string | 目标用户在 provider 的用户 ID
-
 ## Password 方式
 
 ```http
