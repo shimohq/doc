@@ -3,7 +3,7 @@
 ## 获取文档列表
 
 ```http
-GET /files?folder=jUiAcImUVWuhIbcW&subFolders%20=true HTTP/1.1
+GET /files?folder=jUiAcImUVWuhIbcW HTTP/1.1
 Host: api.shimo.im
 ```
 
