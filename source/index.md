@@ -1,9 +1,9 @@
 ---
-title: API 接口草稿
+title: 石墨开放 API
 
 language_tabs:
-  - http
-  - node: Node.js
+  - http: HTTP
+  - javascript: Node.js
 
 toc_footers:
   - <a href='https://shimo.im'>石墨首页</a>
@@ -18,7 +18,3 @@ includes:
 
 search: true
 ---
-
-# 介绍
-
-此文档定义的 API 正在开发中，具体接口字段可能会有细节调整。

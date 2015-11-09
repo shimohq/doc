@@ -16,7 +16,7 @@ Content-Length: 64
 grant_type=authorization&code=yourcode
 ```
 
-```node
+```javascript
 // First, redirect users to the authorization page:
 res.redirect(shimo.oauth.authorization({
   redirect_uri: 'https://yourapp.tld/oauth/callback'
@@ -72,7 +72,7 @@ scope 的有效值分别为 `public`, `read` 和 `write`，分别对应“获取
 > grant_type=provider_exchange&provider_user=user_id_here
 > ```
 
-> ```node
+> ```javascript
 > shimo.oauth.token('provider_exchange', {
 >   provider_user: 'user_id_here'
 > });
@@ -105,7 +105,7 @@ Content-Length: 64
 grant_type=password&username=user@shimo.im@password=strongtoken
 ```
 
-```node
+```javascript
 shimo.oauth.token('password', {
   username: 'user',
   password: 'strongtoken'
@@ -139,7 +139,7 @@ Content-Length: 64
 grant_type=refresh_token&refresh_token=tokenhere
 ```
 
-```node
+```javascript
 shimo.oauth.token('refresh_token', {
   refresh_token: 'tokenhere',
   password: 'strongtoken'

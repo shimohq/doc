@@ -7,7 +7,7 @@ GET /files?folder=jUiAcImUVWuhIbcW&subFolders%20=true HTTP/1.1
 Host: api.shimo.im
 ```
 
-```node
+```javascript
 shimo.get('files', { qs: { folder: 'jUiAcImUVWuhIbcW' } });
 ```
 
@@ -46,7 +46,7 @@ Content-Length: 15
 {"folder":false}
 ```
 
-```node
+```javascript
 shimo.post('files', {
   qs: { folder: 32 },
   body: { folder: false }
@@ -91,7 +91,7 @@ GET /files/17 HTTP/1.1
 Host: api.shimo.im
 ```
 
-```node
+```javascript
 shimo.get('files/N25Dhp2vTT4uHoKt');
 ```
 
@@ -122,7 +122,7 @@ Content-Length: 16
 {"creator":"79"}
 ```
 
-```node
+```javascript
 shimo.patch('files/17', { body: { creator: 79 } });
 ```
 

@@ -7,7 +7,7 @@ GET /users/me HTTP/1.1
 Host: api.shimo.im
 ```
 
-```node
+```javascript
 shimo.get('users/me');
 ```
 
