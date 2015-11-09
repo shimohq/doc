@@ -7,8 +7,8 @@ GET /users/me HTTP/1.1
 Host: api.shimo.im
 ```
 
-```shell
-curl -X "GET" "https://api.shimo.im/users/me"
+```node
+shimo.get('users/me');
 ```
 
 > 请求成功后返回样例：

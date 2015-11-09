@@ -7,8 +7,8 @@ GET /files?folder=jUiAcImUVWuhIbcW&subFolders%20=true HTTP/1.1
 Host: api.shimo.im
 ```
 
-```shell
-curl -X "GET" "https://api.shimo.im/files?folder=jUiAcImUVWuhIbcW
+```node
+shimo.get('files', { qs: { folder: 'jUiAcImUVWuhIbcW' } });
 ```
 
 > 请求成功后返回样例：
@@ -46,10 +46,11 @@ Content-Length: 15
 {"folder":false}
 ```
 
-```shell
-curl -X "POST" "https://api.shimo.im/files?folder=32" \
-	-H "Content-Type: application/json" \
-	-d "{\"folder\":false}"
+```node
+shimo.post('files', {
+  qs: { folder: 32 },
+  body: { folder: false }
+});
 ```
 
 > 请求成功后返回样例：
@@ -90,8 +91,8 @@ GET /files/17 HTTP/1.1
 Host: api.shimo.im
 ```
 
-```shell
-curl -X "GET" "https://api.shimo.im/files/N25Dhp2vTT4uHoKt"
+```node
+shimo.get('files/N25Dhp2vTT4uHoKt');
 ```
 
 > 请求成功后返回样例：
@@ -121,10 +122,8 @@ Content-Length: 16
 {"creator":"79"}
 ```
 
-```shell
-curl -X "PATCH" "https://api.shimo.im/files/17" \
-	-H "Content-Type: application/json" \
-	-d "{\"creator\":\"79\"}"
+```node
+shimo.patch('files/17', { body: { creator: 79 } });
 ```
 
 修改文档，目前可以修改文档的管理员（默认情况下管理员即为文档的创建者）。

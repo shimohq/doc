@@ -1,10 +1,32 @@
 # OAuth 授权
 
-石墨鉴权接口遵循 OAuth 2.0 协议。OAuth 是一个能使得第三方应用在无需知道用户的密码的前提下读写用户私有资源的协议，第三方应用通过 OAuth 协议向用户请求授权后，可以获得一个 Access Token，此后即可使用该 Token 来代替用户密码来通过石墨开放 API 请求用户的私有资源。
+石墨鉴权接口遵循 [OAuth 2.0 协议](https://tools.ietf.org/html/rfc6749)。OAuth 是一个能使得第三方应用在无需知道用户的密码的前提下读写用户私有资源的标准协议，第三方应用通过 OAuth 协议向用户请求授权后，可以获得一个 Access Token，此后即可使用该 Token 来代替用户密码来通过石墨开放 API 请求用户的私有资源。
 
-石墨支持 Authorization Code, Password, Provider Exchange 和 Refresh Token 四种 OAuth 授权方式。
+石墨支持 Authorization Code, Password, Provider Exchange 和 Refresh Token 四种 OAuth 授权方式，其中每种授权方式都是通过调用 `/oauth/token` 接口来最终获取 Access Token，该接口需要传送 `"Authorization"` header，内容遵循 HTTP Basic 标准，格式为 `"client_id:client_secret"`。另外为了严格遵照 OAuth 2.0 规范，OAuth 相关的 API 均支持使用 `application/x-www-form-urlencoded` 格式传送数据。
 
 ## Authorization Code 方式
+
+```http
+POST /oauth/token HTTP/1.1
+Authorization: Basic Y2xpZW50X2lkOmNsaWVudF9zZWNyZXQ=
+Content-Type: application/x-www-form-urlencoded
+Host: api.shimo.im
+Content-Length: 64
+
+grant_type=authorization&code=yourcode
+```
+
+```node
+// First, redirect users to the authorization page:
+res.redirect(shimo.oauth.authorization({
+  redirect_uri: 'https://yourapp.tld/oauth/callback'
+}));
+
+// Second, exchange token with the returned code in the callback page:
+shimo.oauth.token('authorization', {
+  code: req.query.code
+});
+```
 
 Authorization Code 方式是最通用的授权方式，该方式尤其适用于网站使用。
 
@@ -34,7 +56,6 @@ redirect\_uri | 是 | 无 | string | 和第一步传的 `redirect_uri` 参数一
 
 该 API 会返回 Access Token 和 Refresh Token。
 
-
 <aside class="notice">
 scope 的有效值分别为 `public`, `read` 和 `write`，分别对应“获取用户公开资料”、“读取用户的私有文档”和“读写用户的私有文档”。
 </aside>
@@ -51,12 +72,10 @@ Content-Length: 64
 grant_type=provider_exchange&provider_user=user_id_here
 ```
 
-```shell
-# Authorization 的值遵循 HTTP Basic Auth，由 client_id:client_secret 构成
-curl -X "POST" "https://api.shimo.im/oauth/token" \
-	-H "Authorization: Basic Y2xpZW50X2lkOmNsaWVudF9zZWNyZXQ=" \
-	--data-urlencode "grant_type=provider_exchange" \
-	--data-urlencode "provider_user=user_id_here"
+```node
+shimo.oauth.token('provider_exchange', {
+  provider_user: 'user_id_here'
+});
 ```
 
 对于限定的第三方登录提供商，石墨提供 Provider Exchange 方式来允许第三方直接获取其平台用户在石墨的 Access Token。
@@ -86,13 +105,11 @@ Content-Length: 64
 grant_type=password&username=user@shimo.im@password=strongtoken
 ```
 
-```shell
-# Authorization 的值遵循 HTTP Basic Auth，由 client_id:client_secret 构成
-curl -X "POST" "https://api.shimo.im/oauth/token" \
-	-H "Authorization: Basic Y2xpZW50X2lkOmNsaWVudF9zZWNyZXQ=" \
-	--data-urlencode "grant_type=password" \
-	--data-urlencode "username=user@shimo.im" \
-	--data-urlencode "password=strongtoken"
+```node
+shimo.oauth.token('password', {
+  username: 'user',
+  password: 'strongtoken'
+});
 ```
 
 Password 方式允许第三方应用通过用户的邮箱和密码获取 Access Token。目前此方式只开放给指定的第三方应用。
@@ -122,12 +139,11 @@ Content-Length: 64
 grant_type=refresh_token&refresh_token=tokenhere
 ```
 
-```shell
-# Authorization 的值遵循 HTTP Basic Auth，由 client_id:client_secret 构成
-curl -X "POST" "https://api.shimo.im/oauth/token" \
-	-H "Authorization: Basic Y2xpZW50X2lkOmNsaWVudF9zZWNyZXQ=" \
-	--data-urlencode "grant_type=refresh_token" \
-	--data-urlencode "refresh_token=tokenhere"
+```node
+shimo.oauth.token('refresh_token', {
+  refresh_token: 'tokenhere',
+  password: 'strongtoken'
+});
 ```
 
 Access Token 的有效期为一个小时，过期后需要使用 Refresh Token 刷新。Refresh Token 除非用户主动撤销，否则永久有效。

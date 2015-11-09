@@ -3,7 +3,7 @@ title: API 接口草稿
 
 language_tabs:
   - http
-  - shell
+  - node: Node.js
 
 toc_footers:
   - <a href='https://shimo.im'>石墨首页</a>
