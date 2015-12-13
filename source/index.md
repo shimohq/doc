@@ -10,6 +10,7 @@ toc_footers:
   - <a href='https://github.com/shimohq'>石墨 GitHub</a>
 
 includes:
+  - overview
   - auth
   - invoke
   - users
