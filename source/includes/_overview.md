@@ -8,13 +8,7 @@ API 遵循 RESTful 风格，使用 JSON 数据格式作为请求和返回的数�
 
 ## 版本控制
 
-当前石墨开放 API 的版本为 v2，进行接口调用时客户端需要通过 `Accept` HTTP Header 明确告知服务器当前调用的 API 接口，格式如下：
-
-```
-Accept: application/vnd.shimo.v2+json
-```
-
-如果不传递，默认将请求 v1 接口。
+当前石墨开放 API 的版本为 v2，进行接口调用时客户端需要通过 `Accept` HTTP Header 明确告知服务器当前调用的 API 接口，格式为 `Accept: application/vnd.shimo.v2+json`。如果不传递，默认将请求 v1 接口。
 
 ## 客户端
 
