@@ -123,12 +123,12 @@ name | 否 | 新建文档 | string | 文件（夹）标题
 ## 获取文档内容
 
 ```http
-GET /files/17 HTTP/1.1
+GET /files/neFFrL5xmakcgPGS?html=true HTTP/1.1
 Host: api.shimo.im
 ```
 
 ```javascript
-shimo.get('files/N25Dhp2vTT4uHoKt');
+shimo.get('files/neFFrL5xmakcgPGS?html=true');
 ```
 
 > 请求成功后返回样例：
@@ -153,3 +153,7 @@ shimo.get('files/N25Dhp2vTT4uHoKt');
 ### HTTP 请求
 
 `GET https://api.shimo.im/files/:fileId`
+
+参数 | 必选 | 默认值 | 类型 | 描述
+--------- | ------- | ------- | ------- | -----------
+html | 否 | false | boolean | 如提供，则会返回 html 属性
