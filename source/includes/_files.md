@@ -52,8 +52,12 @@ shimo.get('files', { qs: { folder: 'jUiAcImUVWuhIbcW', level: 2 } });
 取值 | 描述
 --------- | -----------
 folder | 文件夹
-document | 文档
-spreadsheet | 表格
+document | 文档(不再维护)
+spreadsheet | 表格(不再维护)
+newdoc | 新文档
+sheet | 新表格
+slide | 幻灯片
+mindmap | 思维导图
 
 ### HTTP 请求
 
